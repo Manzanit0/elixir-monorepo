@@ -25,3 +25,14 @@ services:
     ports:
       - "4000:4000"
     command: mix phx.server
+
+  auth_service:
+    depends_on:
+      - db
+      - email_service
+    build:
+      context: apps/auth_service
+      dockerfile: docker/Dockerfile
+    ports:
+      - "4001:4001"
+    command: mix phx.server

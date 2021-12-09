@@ -1,7 +1,7 @@
 import Config
 
-config :email_service, EmailService.Repo,
+config :auth_service, AuthService.Repo,
   hostname: "db",
   username: "docker",
   password: "123",
-  database: "email_service_db"
+  database: "auth_service_db"
