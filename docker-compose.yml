@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: postgres:13-alpine
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5431:5432"
+    volumes:
+      - ./docker/db:/docker-entrypoint-initdb.d/
+
+  email_service:
+    depends_on:
+      - db
+    build:
+      context: apps/email_service
+      dockerfile: docker/Dockerfile
+    ports:
+      - "4000:4000"
+    command: mix phx.server
