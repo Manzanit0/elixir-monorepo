@@ -7,6 +7,7 @@ defmodule EmailServiceWeb.Router do
 
   scope "/api", EmailServiceWeb do
     pipe_through :api
+    put "emails/:id", CreateEmailController, :index
   end
 
   # Enables LiveDashboard only for development
