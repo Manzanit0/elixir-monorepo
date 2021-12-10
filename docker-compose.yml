@@ -22,9 +22,11 @@ services:
     build:
       context: apps/email_service
       dockerfile: docker/Dockerfile
+    environment:
+      SECRET_KEY_BASE: "S3croj/0ZcfwSMYKKhzNrRnCFcdSNVrrO+Pt1nnRYdtiOWkQj08hUVwMdRkk8BL+"
+      DATABASE_URL: "postgres://docker:123@db/email_service_db"
     ports:
       - "4000:4000"
-    command: mix phx.server
 
   auth_service:
     depends_on:

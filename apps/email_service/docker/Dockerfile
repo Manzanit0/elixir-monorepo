@@ -1,21 +1,25 @@
-FROM elixir:1.12.3
+FROM elixir:1.12.3-alpine
 
-RUN apt-get update -qq && \
-    apt-get install -y \
-    build-essential
+RUN apk add --no-cache build-base npm git
 
-ENV APP_HOME=/usr/src/app/
-WORKDIR $APP_HOME
+WORKDIR /app
 
-COPY mix* $APP_HOME
-RUN mix local.hex --force
-RUN mix local.rebar --force
-RUN mix deps.get
+RUN mix local.hex --force && \
+    mix local.rebar --force
 
-COPY config $APP_HOME/config
-COPY docker/dev.exs $APP_HOME/config/dev.exs
-RUN mix deps.compile
+ENV MIX_ENV=prod
 
-COPY lib $APP_HOME/lib
-COPY priv $APP_HOME/priv
-RUN mix compile
+COPY mix.exs mix.lock ./
+COPY config config
+RUN mix do deps.get, deps.compile
+
+COPY lib lib
+COPY priv priv
+
+RUN mix do compile, release
+
+RUN chown -R nobody:nobody /app/_build/prod/rel/email_service
+USER nobody:nobody
+WORKDIR /app/_build/prod/rel/email_service
+
+CMD bin/email_service eval "EmailService.Release.setup()" && bin/email_service start
