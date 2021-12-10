@@ -13,7 +13,7 @@ loop.
 
 Some topics I want to explore:
 
-- [ ] Have each service take care of their migrations
+- [X] Have each service take care of their migrations
 - [ ] Connect Auth Service -> Email service via HTTP
 - [ ] Distributed tracing via OpenTelemetry
 - [ ] Log aggregation
