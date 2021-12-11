@@ -17,6 +17,8 @@ config :auth_service, AuthServiceWeb.Endpoint,
   pubsub_server: AuthService.PubSub,
   live_view: [signing_salt: "vzgjd8Z5"]
 
+config :tesla, adapter: Tesla.Adapter.Hackney
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

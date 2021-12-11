@@ -39,10 +39,14 @@ defmodule AuthService.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_live_dashboard, "~> 0.6"},
       {:swoosh, "~> 1.3"},
+      {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      # They haven't released yet a version which works with mime pkg v2.0, but it is in master.
+      {:tesla, github: "teamon/tesla", ref: "c1e0f2d031eb87a207db33333b8d4afc58384e87"},
+      {:hackney, "~> 1.17"}
     ]
   end
 

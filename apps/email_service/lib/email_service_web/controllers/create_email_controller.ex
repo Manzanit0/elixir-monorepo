@@ -1,6 +1,5 @@
 defmodule EmailServiceWeb.CreateEmailController do
   use EmailServiceWeb, :controller
-  require Logger
   alias EmailService.Emails
 
   def index(conn, params) do

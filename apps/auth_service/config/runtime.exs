@@ -12,6 +12,15 @@ if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
   config :auth_service, AuthServiceWeb.Endpoint, server: true
 end
 
+email_service_url =
+  System.get_env("EMAIL_SERVICE_URL") ||
+    raise """
+    environment variable EMAIL_SERVICE_URL is missing.
+    Point it to the Email Servic application URL.
+    """
+
+config :auth_service, AuthService.EmailClient, base_url: email_service_url
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
