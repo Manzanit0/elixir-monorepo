@@ -2,10 +2,11 @@ import Config
 
 # Configure your database
 config :email_service, EmailService.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "docker",
+  password: "123",
   database: "email_service_db",
   hostname: "localhost",
+  port: "5431",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

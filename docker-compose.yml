@@ -27,7 +27,7 @@ services:
       DATABASE_URL: "postgres://docker:123@db/email_service_db"
       PHX_SERVER: true
     ports:
-      - "4000:4000"
+      - "4001:4000"
 
   auth_service:
     depends_on:
@@ -41,4 +41,4 @@ services:
       DATABASE_URL: "postgres://docker:123@db/auth_service_db"
       PHX_SERVER: true
     ports:
-      - "4001:4000"
+      - "4002:4000"

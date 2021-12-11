@@ -2,10 +2,11 @@ import Config
 
 # Configure your database
 config :auth_service, AuthService.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "auth_service_dev",
+  username: "docker",
+  password: "123",
+  database: "auth_service_db",
   hostname: "localhost",
+  port: "5431",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
