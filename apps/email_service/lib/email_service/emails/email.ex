@@ -11,9 +11,15 @@ defmodule EmailService.Emails.Email do
   end
 
   @doc false
-  def changeset(egg, attrs) do
-    egg
+  def changeset(email, attrs) do
+    email
     |> cast(attrs, [:to, :from, :body, :id])
     |> validate_required([:to, :from, :body, :id])
+    |> unique_constraint([:id], name: :emails_pkey)
+  end
+
+  def update_changeset(email, attrs) do
+    email
+    |> cast(attrs, [:to, :from, :body])
   end
 end
