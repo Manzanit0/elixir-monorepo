@@ -20,6 +20,10 @@ defmodule EmailService.Application do
       # {EmailService.Worker, arg}
     ]
 
+    OpentelemetryEcto.setup([:email_service, :repo])
+    OpentelemetryPhoenix.setup()
+    OpentelemetryLoggerMetadata.setup()
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: EmailService.Supervisor]

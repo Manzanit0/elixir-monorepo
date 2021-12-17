@@ -12,6 +12,21 @@ if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
   config :auth_service, AuthServiceWeb.Endpoint, server: true
 end
 
+otel_collector_host = System.get_env("OTEL_COLLECTOR_HOST")
+otel_collector_port = System.get_env("OTEL_COLLECTOR_PORT")
+
+if otel_collector_host && otel_collector_port do
+  otel_collector_host = String.to_charlist(otel_collector_host)
+  {otel_collector_port, ""} = Integer.parse(otel_collector_port)
+
+  config :opentelemetry, :processors,
+    otel_batch_processor: %{
+      exporter:
+        {:opentelemetry_exporter,
+         %{endpoints: [{:http, otel_collector_host, otel_collector_port, []}]}}
+    }
+end
+
 email_service_url =
   System.get_env("EMAIL_SERVICE_URL") ||
     raise """

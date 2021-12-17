@@ -1,5 +1,9 @@
 version: '3'
 services:
+  #################
+  #   Database    #
+  #################
+
   db:
     image: postgres:13-alpine
     healthcheck:
@@ -16,6 +20,10 @@ services:
     volumes:
       - ./docker/db:/docker-entrypoint-initdb.d/
 
+  #################
+  #   Services    #
+  #################
+
   email_service:
     depends_on:
       - db
@@ -25,6 +33,12 @@ services:
       SECRET_KEY_BASE: "S3croj/0ZcfwSMYKKhzNrRnCFcdSNVrrO+Pt1nnRYdtiOWkQj08hUVwMdRkk8BL+"
       DATABASE_URL: "postgres://docker:123@db/email_service_db"
       PHX_SERVER: true
+    logging:
+      driver: loki
+      options:
+        # We want to access Loki from the perspective of the host OS, not an adjacent container.
+        loki-url: http://localhost:3100/loki/api/v1/push
+
     ports:
       - "4001:4000"
 
@@ -39,5 +53,44 @@ services:
       SECRET_KEY_BASE: "Q2MF2Q+lE9uNqRmylF6LMV4u7sYgpaA/FinEzUTKQo5ea+Uci0OZwnKb+EcatGp3"
       DATABASE_URL: "postgres://docker:123@db/auth_service_db"
       PHX_SERVER: true
+      OTEL_COLLECTOR_HOST: "tempo"
+      OTEL_COLLECTOR_PORT: "55681"
+    logging:
+      driver: loki
+      options:
+        loki-url: http://localhost:3100/loki/api/v1/push
     ports:
       - "4002:4000"
+
+  #################
+  # Observability #
+  #################
+
+  grafana:
+    image: grafana/grafana:8.2.6
+    ports:
+      - 5000:3000
+    volumes:
+      - ./grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    depends_on:
+      - tempo
+
+  loki:
+    image: grafana/loki:2.3.0
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+
+  tempo:
+    image: grafana/tempo:1.2.1
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./tempo.yaml:/etc/tempo.yaml
+      - ./tempo-data:/tmp/tempo
+    ports:
+      - 8000:8000 # tempo
+      - 55681:55681 # otlp http

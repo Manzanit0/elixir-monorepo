@@ -20,6 +20,10 @@ defmodule AuthService.Application do
       # {AuthService.Worker, arg}
     ]
 
+    OpentelemetryEcto.setup([:auth_service, :repo])
+    OpentelemetryPhoenix.setup()
+    OpentelemetryLoggerMetadata.setup()
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: AuthService.Supervisor]

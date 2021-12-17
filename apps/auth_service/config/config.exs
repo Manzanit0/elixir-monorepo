@@ -19,6 +19,8 @@ config :auth_service, AuthServiceWeb.Endpoint,
 
 config :tesla, adapter: Tesla.Adapter.Hackney
 
+config :opentelemetry, :resource, service: %{name: "auth"}
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
@@ -34,7 +36,7 @@ config :swoosh, :api_client, false
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+  metadata: [:request_id, :span_id, :trace_id]
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
