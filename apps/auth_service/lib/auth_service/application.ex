@@ -20,6 +20,7 @@ defmodule AuthService.Application do
       # {AuthService.Worker, arg}
     ]
 
+    OpenTelemetry.register_tracer(:auth_service, "0.1.0")
     OpentelemetryEcto.setup([:auth_service, :repo])
     OpentelemetryPhoenix.setup()
     OpentelemetryLoggerMetadata.setup()

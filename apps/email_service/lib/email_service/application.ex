@@ -20,6 +20,7 @@ defmodule EmailService.Application do
       # {EmailService.Worker, arg}
     ]
 
+    OpenTelemetry.register_tracer(:email_service, "0.1.0")
     OpentelemetryEcto.setup([:email_service, :repo])
     OpentelemetryPhoenix.setup()
     OpentelemetryLoggerMetadata.setup()

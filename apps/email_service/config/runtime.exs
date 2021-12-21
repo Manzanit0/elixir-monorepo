@@ -12,6 +12,21 @@ if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
   config :email_service, EmailServiceWeb.Endpoint, server: true
 end
 
+otel_collector_host = System.get_env("OTEL_COLLECTOR_HOST")
+otel_collector_port = System.get_env("OTEL_COLLECTOR_PORT")
+
+if otel_collector_host && otel_collector_port do
+  otel_collector_host = String.to_charlist(otel_collector_host)
+  {otel_collector_port, ""} = Integer.parse(otel_collector_port)
+
+  config :opentelemetry, :processors,
+    otel_batch_processor: %{
+      exporter:
+        {:opentelemetry_exporter,
+         %{endpoints: [{:http, otel_collector_host, otel_collector_port, []}]}}
+    }
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

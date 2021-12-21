@@ -33,6 +33,8 @@ services:
       SECRET_KEY_BASE: "S3croj/0ZcfwSMYKKhzNrRnCFcdSNVrrO+Pt1nnRYdtiOWkQj08hUVwMdRkk8BL+"
       DATABASE_URL: "postgres://docker:123@db/email_service_db"
       PHX_SERVER: true
+      OTEL_COLLECTOR_HOST: "tempo"
+      OTEL_COLLECTOR_PORT: "55681"
     logging:
       driver: loki
       options:
