@@ -15,9 +15,9 @@ Some topics I want to explore:
 
 - [X] Have each service take care of their migrations
 - [X] Connect Auth Service -> Email service via HTTP
-- [ ] Distributed tracing via OpenTelemetry
-- [ ] Log aggregation
-- [ ] How would shared libraries look like?
+- [X] Distributed tracing via OpenTelemetry
+- [X] Log aggregation
+- [X] How would shared libraries look like?
 - [ ] Creating CI to deploy individually each service avoiding couplement.
 
 ## Distributed tracing
