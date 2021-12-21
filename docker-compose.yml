@@ -49,7 +49,8 @@ services:
       - db
       - email_service
     build:
-      context: apps/auth_service
+      context: .
+      dockerfile: apps/auth_service/Dockerfile
     environment:
       EMAIL_SERVICE_URL: "http://email_service:4000"
       SECRET_KEY_BASE: "Q2MF2Q+lE9uNqRmylF6LMV4u7sYgpaA/FinEzUTKQo5ea+Uci0OZwnKb+EcatGp3"

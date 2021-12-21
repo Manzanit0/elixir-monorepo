@@ -25,6 +25,8 @@ if otel_collector_host && otel_collector_port do
         {:opentelemetry_exporter,
          %{endpoints: [{:http, otel_collector_host, otel_collector_port, []}]}}
     }
+
+  config :opentelemetry, text_map_propagators: [:baggage, :trace_context]
 end
 
 if config_env() == :prod do

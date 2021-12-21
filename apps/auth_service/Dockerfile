@@ -8,13 +8,23 @@ RUN mix local.hex --force && \
     mix local.rebar --force
 
 ENV MIX_ENV=prod
+ENV SHARED_LIBS_DIR=shared
 
-COPY mix.exs mix.lock ./
-COPY config config
+COPY /apps/auth_service/mix.exs /apps/auth_service/mix.lock ./
+COPY /apps/auth_service/config config
+
+# Not very efficient since we're copying all of them.
+COPY /libs shared
+
 RUN mix do deps.get, deps.compile
 
-COPY lib lib
-COPY priv priv
+COPY /apps/auth_service/lib lib
+COPY /apps/auth_service/priv priv
+
+RUN mix do deps.get, deps.compile
+
+COPY /apps/auth_service/lib lib
+COPY /apps/auth_service/priv priv
 
 RUN mix do compile, release
 

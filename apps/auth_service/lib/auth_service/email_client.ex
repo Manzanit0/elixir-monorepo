@@ -12,6 +12,7 @@ defmodule AuthService.EmailClient do
     middleware = [
       {Tesla.Middleware.BaseUrl, config[:base_url]},
       Tesla.Middleware.Telemetry,
+      TeslaMiddlewareOpentelemetry,
       {Tesla.Middleware.Headers, [{"content-type", "application/json"}]},
       Tesla.Middleware.JSON,
       {Tesla.Middleware.Timeout, timeout: 2_000},
