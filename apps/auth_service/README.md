@@ -1,4 +1,4 @@
-# AuthService
+# Auth Service
 
 To start your Phoenix server:
 
