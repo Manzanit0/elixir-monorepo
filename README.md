@@ -6,19 +6,17 @@ applications (althought for what it's worth, it could be any other language).
 ## Getting started
 
 `docker compose up` should get you running. To play with a specific service just
-run `docker down <service name>`, and run it baremetal for the best feedback
+run `docker stop <service name>`, and run it baremetal for the best feedback
 loop.
 
-## TODO
+## Some topics explored
 
-Some topics I want to explore:
-
-- [X] Have each service take care of their migrations
-- [X] Connect Auth Service -> Email service via HTTP
-- [X] Distributed tracing via OpenTelemetry
-- [X] Log aggregation
-- [X] How would shared libraries look like?
-- [ ] Creating CI to deploy individually each service avoiding couplement.
+- Have each service take care of their migrations
+- Making requests from one service to another
+- Distributed tracing via OpenTelemetry
+- Log aggregation
+- Shared code between services: libraries.
+- Creating individual CI pipelines for each service avoiding couplement.
 
 ## Distributed tracing
 
