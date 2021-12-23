@@ -1,4 +1,4 @@
-# EmailService
+# Email Service
 
 To start your Phoenix server:
 
